@@ -1,16 +1,16 @@
 public class Spreadsheet 
 {
   private Cell[][] cells;
-  private int rows=11;
-  private int cols=8;
-  private int colWidth=12;
-  private int asciiOffset=64;
+  private static int rows=11;
+  private static int cols=8;
+  private static int colWidth=12;
+  private static int asciiOffset=64;
   private String border;
   private String borderRow;
   // private methods
   private static int getCol(String location) 
   {
-    return (int)location.charAt(0)-aciiOffset;  
+    return (int)location.charAt(0)-asciiOffset;  
   }
   
   private static int getRow(String location) 
@@ -37,7 +37,7 @@ public class Spreadsheet
   
   // constructor
   public Spreadsheet() {
-    cells= new Call[rows][cols];
+    cells= new Cell[rows][cols];
     cells[0][0]=new CellString("");
     border="";
     for (int i=0; i<colWidth;i++)
@@ -45,9 +45,10 @@ public class Spreadsheet
       border+="-";
     }
     borderRow=border+"+";
-    for(int col=1; col<cols;cols++)
+    for(int col=1; col<cols;col++)
     {
-      cells[0][col]=new CellString((asciiOffset+col)+"");
+      cells[0][col]=new CellString(((char)(asciiOffset+col))+"");
+      borderRow+=border+"+";
     }
     for (int row=1; row<rows; row++)
     {
@@ -70,25 +71,14 @@ public class Spreadsheet
   }
   
   public void print() {
-    for(int row=1;row<rows;row++)
+    for(int row=0; row<rows; row++)
     {
-      cells[row][0]=new CellNumeric(row+"");
-    }
-    System.out.print(" ");
-    System.out.print(" A |");
-    System.out.print(" B |");
-    System.out.print(" C |");
-    System.out.print(" D |");
-    System.out.print(" E |");
-    System.out.print(" F |");
-    System.out.println(" G |");
-    for(int row=1; row<rows; row++)
-    {
-      for(int col=1; col<cols; col++)
+      for(int col=0; col<cols; col++)
       {
-        System.out.println(padOrTruncateDisplayString(cells[row][col]));
-        System.out.println(borderRow);
+        System.out.print(padOrTruncateDisplayString(cells[row][col]));
+        System.out.print("|");
       }
+      System.out.println(borderRow);
     }   
   }
 }
